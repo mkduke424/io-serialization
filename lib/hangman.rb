@@ -13,56 +13,52 @@ def random_word
 end
 
 class HangMan 
-  def initialize 
-end
+ attr_accessor :word, :status, :incorrect_guesses
+  def initialize(word) 
+    @word = word
+    @arr_word = word.split("")
+    @status = []
+    @arr_word.each do 
+      @status.push("_")
+    end
+  
+    @incorrect_guesses = []
+  end
 
-# for now lets practice with a random word - racecar - We can turn this into classes once we get the logic down
+  def play_round
+    puts "Guess a letter: "
+    guessed_letter = gets.chomp.downcase
 
-# creates the hangman word tracking template
-word = "racecar"
-arr_word = word.split("")
-status = []
-arr_word.each do 
-  status.push("_")
-end
+    # if the guessed letter isn't found in the chosen word then add it to incorrect guesses array
+    @incorrect_guesses.push(guessed_letter) unless @arr_word.include? guessed_letter
 
-incorrect_guesses = []
+    # if the guessed letter is found then update the status of the players correct guesses 
+    @arr_word.each_with_index do |char, index|
+      if char == guessed_letter
+        @status[index] = char
+      end
+    end
 
-# play until the hangman is hung or until the correct letters are guess 
-until incorrect_guesses.length == 6
-#logic for gameplay
-# Guess a letter
-puts "Guess a letter: "
-guessed_letter = gets.chomp.downcase
-# if the guessed letter isn't found in the chosen word then add it to incorrect guesses array
-incorrect_guesses.push(guessed_letter) unless arr_word.include? guessed_letter
-
-# if the guessed letter is found then update the status of the players correct guesses 
-arr_word.each_with_index do |char, index|
-  if char == guessed_letter
-    status[index] = char
+    #output the progress of the player 
+    p @status 
+    p @incorrect_guesses
+    p "You have #{ 6 - incorrect_guesses.length} incorrect guesses left"
   end
 end
-#output the progress of the player 
-p status 
-p incorrect_guesses
 
-# quit if the status doesn't contain "-" symbol
-if !status.include? "_"
-  p "Congrats you won"
-  break 
+hangman = HangMan.new(random_word)
+
+until hangman.incorrect_guesses.length == 6
+  hangman.play_round
+
+  # The winner is announced when the status doesn't contain "_" characters 
+  unless hangman.status.include? '_'
+    puts 'Congrats you have won!'
+    break
+  end
 end
 
-end
-
-if incorrect_guesses.length == 6
-  p "Sorry pal but you lost the game"
-end
-
-
-
-
-
-
+p "Sorry pal you lost the game! The word was: #{hangman.word} " if hangman.incorrect_guesses.length == 6
+    
 
 
