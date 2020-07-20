@@ -1,0 +1,28 @@
+---
+:word: shabbiness
+:arr_word:
+- s
+- h
+- a
+- b
+- b
+- i
+- n
+- e
+- s
+- s
+:status:
+- _
+- _
+- _
+- _
+- _
+- _
+- _
+- _
+- _
+- _
+:incorrect_guesses:
+- d
+- f
+- l
